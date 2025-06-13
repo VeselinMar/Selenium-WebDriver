@@ -18,19 +18,13 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 6.0.x
-    - name: Install Google Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y wget gnupg
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      env:
-        CHROMEWEBDRIVER: /usr/bin/google-chrome
-      run: dotnet test
+    - name: Run Project 1 UI tests
+      run: dotnet test TestProject1 --no-build --verbosity normal
+    - name: Run Project 2 UI tests
+      run: dotnet test TestProject2 --no-build --verbosity normal
+    - name: Run Project 3 UI tests
+      run: dotnet test TestProject3 --no-build --verbosity normal
